@@ -8,7 +8,8 @@ Sistema de gestión de inventario desarrollado en Python que utiliza **álgebra 
 
 ```
 Proyecto_ABPro_Gestion_de_Inventario_Inteligente/
-├── main.py                    # Punto de entrada de la aplicación
+├── main.py                    # Punto de entrada de la aplicación (consola)
+├── gui.py                     # Interfaz gráfica (tkinter)
 ├── models/                    # Módulo de modelos (POO)
 │   ├── __init__.py
 │   ├── producto.py            # Clase Producto (representación vectorial)
@@ -137,7 +138,10 @@ pip install pytest
 ### Ejecución
 
 ```bash
-# Ejecutar la aplicación
+# Ejecutar la aplicación con interfaz gráfica (recomendado)
+python gui.py
+
+# O ejecutar la versión de consola
 python main.py
 ```
 
@@ -152,6 +156,29 @@ pytest tests/ -v --cov=.
 ```
 
 ## 📊 Funcionalidades
+
+### Interfaz Gráfica (gui.py)
+1. **🖥️ Interfaz Visual Moderna**
+   - Diseño intuitivo con tkinter
+   - Panel de menú lateral con todas las opciones
+   - Área de trabajo con scroll para visualizar datos
+
+2. **📁 Carga de Inventario desde Excel**
+   - Botón dedicado para cargar archivos .xlsx y .xls
+   - Vista previa de datos importados
+   - Preparado para mapeo personalizado de columnas
+
+3. **🎯 Funcionalidades Integradas**
+   - Ver todos los productos
+   - Ver matriz de inventario
+   - Alertas de stock bajo
+   - Registrar entradas/salidas (con diálogos)
+   - Estadísticas en tiempo real
+   - Reportes completos (DataFrame)
+   - Análisis por categoría
+   - Agregar nuevos productos (formulario)
+
+### Funcionalidades Generales
 
 1. **Gestión de Productos**
    - Agregar/eliminar productos
