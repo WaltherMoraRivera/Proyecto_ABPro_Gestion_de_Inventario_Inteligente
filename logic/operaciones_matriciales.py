@@ -300,7 +300,7 @@ class OperacionesMatriciales:
         
         # Actualizar stock
         producto.stock_actual += cantidad
-        self.inventario._invalidar_cache()
+        self.inventario.notificar_cambio_stock()
         
         return True, f"Entrada registrada: {cantidad} unidades de '{producto.nombre}'"
     
@@ -367,7 +367,7 @@ class OperacionesMatriciales:
         
         # Actualizar stock
         producto.stock_actual -= cantidad
-        self.inventario._invalidar_cache()
+        self.inventario.notificar_cambio_stock()
         
         return True, f"Salida registrada: {cantidad} unidades de '{producto.nombre}'"
     

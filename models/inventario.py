@@ -38,7 +38,16 @@ class Inventario:
         self._nombres_cache: List[str] = []
     
     def _invalidar_cache(self):
-        """Invalida el caché de la matriz cuando hay cambios."""
+        """Invalida el caché de la matriz cuando hay cambios (uso interno)."""
+        self._cache_valido = False
+    
+    def notificar_cambio_stock(self):
+        """
+        Notifica que hubo un cambio en el stock de productos.
+        
+        Debe llamarse después de modificar el stock de un producto
+        para mantener la coherencia del caché de la matriz.
+        """
         self._cache_valido = False
     
     def agregar_producto(self, producto: Producto) -> bool:
