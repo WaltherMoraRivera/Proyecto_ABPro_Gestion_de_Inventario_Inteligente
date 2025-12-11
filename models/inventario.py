@@ -96,6 +96,185 @@ class Inventario:
         """
         return self.productos.get(producto_id)
     
+    def obtener_producto_por_numero_item(self, numero_item: str) -> Optional[Producto]:
+        """
+        Obtiene un producto por su número de item.
+        
+        NOTA: Si hay múltiples productos con el mismo numero_item en diferentes BINs,
+        retorna el primero encontrado. Use obtener_producto_por_numero_item_y_bin()
+        para especificar el BIN.
+        
+        Args:
+            numero_item: Número de item del producto
+        
+        Returns:
+            Producto o None si no existe
+        """
+        for producto in self.productos.values():
+            if producto.numero_item == numero_item and numero_item != "N/D":
+                return producto
+        return None
+    
+    def obtener_producto_por_codigo_upc(self, codigo_upc: str) -> Optional[Producto]:
+        """
+        Obtiene un producto por su código UPC.
+        
+        NOTA: Si hay múltiples productos con el mismo codigo_upc en diferentes BINs,
+        retorna el primero encontrado. Use obtener_producto_por_codigo_upc_y_bin()
+        para especificar el BIN.
+        
+        Args:
+            codigo_upc: Código UPC del producto
+        
+        Returns:
+            Producto o None si no existe
+        """
+        for producto in self.productos.values():
+            if producto.codigo_upc == codigo_upc and codigo_upc != "N/D":
+                return producto
+        return None
+    
+    def obtener_producto_por_numero_item_y_bin(self, numero_item: str, bin: str) -> Optional[Producto]:
+        """
+        Obtiene un producto por su número de item Y ubicación de bodega (BIN).
+        
+        Esta es la forma correcta de identificar un producto único considerando
+        que puede estar en múltiples ubicaciones de bodega.
+        
+        Args:
+            numero_item: Número de item del producto
+            bin: Código de ubicación en bodega
+        
+        Returns:
+            Producto o None si no existe
+        """
+        for producto in self.productos.values():
+            if (producto.numero_item == numero_item and numero_item != "N/D" and
+                producto.bin == bin and bin != "N/D"):
+                return producto
+        return None
+    
+    def obtener_producto_por_codigo_upc_y_bin(self, codigo_upc: str, bin: str) -> Optional[Producto]:
+        """
+        Obtiene un producto por su código UPC Y ubicación de bodega (BIN).
+        
+        Esta es la forma correcta de identificar un producto único considerando
+        que puede estar en múltiples ubicaciones de bodega.
+        
+        Args:
+            codigo_upc: Código UPC del producto
+            bin: Código de ubicación en bodega
+        
+        Returns:
+            Producto o None si no existe
+        """
+        for producto in self.productos.values():
+            if (producto.codigo_upc == codigo_upc and codigo_upc != "N/D" and
+                producto.bin == bin and bin != "N/D"):
+                return producto
+        return None
+    
+    def obtener_stock_total_producto(self, numero_item: str = None, codigo_upc: str = None) -> int:
+        """
+        Calcula el stock total de un producto sumando todas sus ubicaciones de bodega.
+        
+        Args:
+            numero_item: Número de item del producto
+            codigo_upc: Código UPC del producto (alternativo si no hay numero_item)
+        
+        Returns:
+            int: Stock total en todas las bodegas
+        """
+        total = 0
+        for producto in self.productos.values():
+            if numero_item and numero_item != "N/D":
+                if producto.numero_item == numero_item:
+                    total += producto.stock_actual
+            elif codigo_upc and codigo_upc != "N/D":
+                if producto.codigo_upc == codigo_upc:
+                    total += producto.stock_actual
+        return total
+    
+    def obtener_bins_producto(self, numero_item: str = None, codigo_upc: str = None) -> Dict[str, int]:
+        """
+        Obtiene un diccionario de todas las ubicaciones de bodega (BINs) y sus stocks
+        para un producto específico.
+        
+        Args:
+            numero_item: Número de item del producto
+            codigo_upc: Código UPC del producto (alternativo si no hay numero_item)
+        
+        Returns:
+            Dict[str, int]: Diccionario {BIN: stock}
+        """
+        bins = {}
+        for producto in self.productos.values():
+            if numero_item and numero_item != "N/D":
+                if producto.numero_item == numero_item:
+                    bins[producto.bin] = producto.stock_actual
+            elif codigo_upc and codigo_upc != "N/D":
+                if producto.codigo_upc == codigo_upc:
+                    bins[producto.bin] = producto.stock_actual
+        return bins
+    
+    def obtener_productos_agrupados(self) -> Dict[str, List[Producto]]:
+        """
+        Agrupa productos por numero_item o codigo_upc, mostrando todas sus ubicaciones.
+        
+        Returns:
+            Dict[str, List[Producto]]: Diccionario {identificador: [productos en diferentes BINs]}
+        """
+        agrupados = {}
+        for producto in self.productos.values():
+            # Usar numero_item como clave principal, o codigo_upc si no hay numero_item
+            clave = producto.numero_item if producto.numero_item != "N/D" else producto.codigo_upc
+            
+            if clave == "N/D":
+                # Si no tiene identificador válido, usar el ID
+                clave = f"ID_{producto.id}"
+            
+            if clave not in agrupados:
+                agrupados[clave] = []
+            agrupados[clave].append(producto)
+        
+        return agrupados
+    
+    def actualizar_o_agregar_producto(self, producto_nuevo: Producto) -> Tuple[bool, str, Optional[Producto]]:
+        """
+        Actualiza un producto existente o agrega uno nuevo basándose en numero_item/codigo_upc Y BIN.
+        
+        IMPORTANTE: La combinación de (numero_item o codigo_upc) + BIN determina
+        la unicidad del producto en el inventario.
+        
+        Args:
+            producto_nuevo: Producto a actualizar o agregar
+        
+        Returns:
+            Tuple[bool, str, Optional[Producto]]: (éxito, mensaje, producto_existente)
+        """
+        # Buscar producto existente por (numero_item o codigo_upc) Y BIN
+        producto_existente = None
+        
+        if producto_nuevo.numero_item != "N/D" and producto_nuevo.bin != "N/D":
+            producto_existente = self.obtener_producto_por_numero_item_y_bin(
+                producto_nuevo.numero_item, producto_nuevo.bin
+            )
+        
+        if not producto_existente and producto_nuevo.codigo_upc != "N/D" and producto_nuevo.bin != "N/D":
+            producto_existente = self.obtener_producto_por_codigo_upc_y_bin(
+                producto_nuevo.codigo_upc, producto_nuevo.bin
+            )
+        
+        if producto_existente:
+            # Producto existe en ese BIN, retornar para actualización
+            return (True, "Producto encontrado en este BIN para actualización", producto_existente)
+        else:
+            # Producto no existe en ese BIN, agregar nuevo
+            if self.agregar_producto(producto_nuevo):
+                return (True, "Producto nuevo agregado en este BIN", None)
+            else:
+                return (False, "Error al agregar producto", None)
+    
     def obtener_matriz_inventario(self) -> np.ndarray:
         """
         Obtiene la representación matricial del inventario.
@@ -131,7 +310,7 @@ class Inventario:
         """
         if not self.productos:
             return pd.DataFrame(columns=[
-                'id', 'nombre', 'precio', 'stock_actual',
+                'id', 'numero_item', 'codigo_upc', 'bin', 'nombre', 'precio', 'stock_actual',
                 'stock_minimo', 'stock_maximo', 'categoria', 'valor_inventario'
             ])
         
@@ -139,6 +318,9 @@ class Inventario:
         for producto in self.productos.values():
             datos.append({
                 'id': producto.id,
+                'numero_item': producto.numero_item,
+                'codigo_upc': producto.codigo_upc,
+                'bin': producto.bin,
                 'nombre': producto.nombre,
                 'precio': producto.precio,
                 'stock_actual': producto.stock_actual,

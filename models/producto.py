@@ -19,11 +19,18 @@ class Producto:
     Cada producto se modela como un vector de características que permite
     realizar operaciones de álgebra lineal para cálculos eficientes.
     
+    IMPORTANTE: Un producto puede estar en múltiples ubicaciones de bodega (BINs).
+    Cada combinación de (numero_item/codigo_upc + BIN) representa una entrada
+    única que indica cuánto stock hay en esa bodega específica.
+    
     Atributos:
         id (int): Identificador único del producto
+        numero_item (str): Número de item (6 dígitos, identificador único)
+        codigo_upc (str): Código UPC (identificador único)
+        bin (str): Código de ubicación en bodega (formato: XXX/XXX/XXX)
         nombre (str): Nombre descriptivo del producto
         precio (float): Precio unitario del producto
-        stock_actual (int): Cantidad actual en inventario
+        stock_actual (int): Cantidad en esta ubicación específica (BIN)
         stock_minimo (int): Stock mínimo antes de generar alerta
         stock_maximo (int): Capacidad máxima de almacenamiento
         categoria (str): Categoría del producto
@@ -41,7 +48,10 @@ class Producto:
         stock_actual: int = 0,
         stock_minimo: int = 10,
         stock_maximo: int = 100,
-        categoria: str = "General"
+        categoria: str = "General",
+        numero_item: str = "N/D",
+        codigo_upc: str = "N/D",
+        bin: str = "N/D"
     ):
         """
         Inicializa un nuevo producto.
@@ -50,10 +60,13 @@ class Producto:
             id: Identificador único del producto
             nombre: Nombre descriptivo del producto
             precio: Precio unitario (debe ser positivo)
-            stock_actual: Cantidad inicial en inventario
+            stock_actual: Cantidad en esta ubicación de bodega (BIN)
             stock_minimo: Umbral mínimo para alertas
             stock_maximo: Capacidad máxima de almacenamiento
             categoria: Categoría de clasificación
+            numero_item: Número de item (6 dígitos, identificador único)
+            codigo_upc: Código UPC (identificador único)
+            bin: Código de ubicación en bodega (formato: XXX/XXX/XXX)
         
         Raises:
             ValueError: Si el precio es negativo o los stocks son inválidos
@@ -68,6 +81,9 @@ class Producto:
             raise ValueError("El stock máximo debe ser mayor o igual al mínimo")
         
         self.id = id
+        self.numero_item = numero_item
+        self.codigo_upc = codigo_upc
+        self.bin = bin
         self.nombre = nombre
         self.precio = precio
         self.stock_actual = stock_actual
@@ -163,7 +179,10 @@ class Producto:
         estado = "⚠️ BAJO STOCK" if self.necesita_reabastecimiento() else "✓ OK"
         return (
             f"{self.nombre} (ID: {self.id})\n"
+            f"  Número Item: {self.numero_item}\n"
+            f"  Código UPC: {self.codigo_upc}\n"
+            f"  BIN (Bodega): {self.bin}\n"
             f"  Precio: ${self.precio:.2f}\n"
-            f"  Stock: {self.stock_actual}/{self.stock_maximo} [{estado}]\n"
+            f"  Stock en este BIN: {self.stock_actual}/{self.stock_maximo} [{estado}]\n"
             f"  Categoría: {self.categoria}"
         )
