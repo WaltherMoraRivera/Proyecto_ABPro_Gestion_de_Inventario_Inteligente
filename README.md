@@ -225,7 +225,7 @@ pytest tests/ -v --cov=.
    - Panel de menú lateral con todas las opciones
    - Área de trabajo con scroll para visualizar datos
 
-2. **📁 Carga y Exportación de Datos**
+2. **📁 Gestión de Datos (Carga, Exportación y Purga)**
    
    **Cargar Excel:**
    - Botón dedicado para cargar archivos .xlsx y .xls
@@ -243,6 +243,16 @@ pytest tests/ -v --cov=.
    - Incluye todas las columnas: ID, Número Item, Código UPC, BIN, Nombre, Precio, Stock (Actual/Mín/Máx), Categoría
    - Formato compatible con "Cargar Excel" para restaurar datos en nuevas sesiones
    - Permite guardar el trabajo realizado y continuar en otra sesión
+   - Ideal para respaldos y transferencia de datos
+   
+   **🗑️ Purgar Base de Datos:**
+   - Elimina TODOS los productos del inventario actual
+   - **Doble confirmación de seguridad**:
+     1. Diálogo de advertencia con cantidad de productos a eliminar
+     2. Requiere escribir "purgar" para confirmar la acción
+   - Acción permanente e irreversible
+   - Útil para limpiar datos de prueba antes de cargar datos reales
+   - Recomendación: Exportar antes de purgar
    - Ideal para respaldos y transferencia de datos
 
 3. **🎯 Funcionalidades Integradas**

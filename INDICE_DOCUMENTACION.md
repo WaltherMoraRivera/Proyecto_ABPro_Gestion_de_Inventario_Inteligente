@@ -114,7 +114,7 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 ### 8. [CHANGELOG.md](CHANGELOG.md)
 **Propósito**: Registro cronológico de todas las versiones y cambios  
 **Contenido**:
-- Historial de versiones (1.0.0, 1.1.0, 2.0.0, 2.1.0, 2.2.0)
+- Historial de versiones (1.0.0, 1.1.0, 2.0.0, 2.1.0, 2.2.0, 2.3.0)
 - Características añadidas por versión
 - Archivos modificados en cada versión
 - Tipos de cambios (Features, Fixes, Docs, etc.)
@@ -211,7 +211,7 @@ python test_modificar_producto.py
 
 ---
 
-### 12. [test_exportar_bd.py](test_exportar_bd.py) ✨ **NUEVO**
+### 12. [test_exportar_bd.py](test_exportar_bd.py)
 **Propósito**: Script de pruebas para la funcionalidad de exportación de base de datos  
 **Uso**:
 ```bash
@@ -225,6 +225,24 @@ python test_exportar_bd.py
 - Integridad de datos exportados/importados
 
 **Genera**: `inventario_prueba_exportacion.xlsx` para validación
+
+---
+
+### 13. [test_purgar_bd.py](test_purgar_bd.py) ✨ **NUEVO**
+**Propósito**: Script de pruebas para la funcionalidad de purgar base de datos  
+**Uso**:
+```bash
+python test_purgar_bd.py
+```
+**Verifica**:
+- Purga completa de todos los productos
+- Inventario queda vacío después de purgar
+- Permite agregar nuevos productos después de purgar
+- No quedan rastros de productos antiguos
+- Manejo correcto de inventario vacío
+- Integridad del sistema después de purgar
+
+**Escenarios probados**: 7 pruebas, todas pasan ✓
 
 ---
 
@@ -253,6 +271,14 @@ python test_exportar_bd.py
 4. Usar el archivo exportado con "Cargar Excel" en futuras sesiones
 5. Ejecutar `python test_exportar_bd.py` para ver el proceso de exportación
 
+### Para Limpiar/Reiniciar Inventario
+1. **⚠️ PRECAUCIÓN**: Esta acción elimina TODOS los productos permanentemente
+2. Se recomienda usar "💾 Exportar Base de Datos" antes de purgar
+3. Hacer clic en "🗑️ Purgar Base de Datos" en la barra superior
+4. Confirmar en el diálogo de advertencia
+5. Escribir "purgar" en el campo de confirmación
+6. Ejecutar `python test_purgar_bd.py` para ver el proceso de purga
+
 ### Para Desarrolladores
 1. [README.md](README.md) - Arquitectura general
 2. [RESUMEN_CAMBIOS.md](RESUMEN_CAMBIOS.md) - Implementación carga Excel
@@ -269,7 +295,7 @@ python test_exportar_bd.py
 | **Guías de Usuario** | GUIA_CARGA_EXCEL.md<br>GUIA_BIN.md<br>GUIA_MODIFICAR_PRODUCTO.md<br>GUIA_EXPORTAR_BD.md | Instrucciones paso a paso |
 | **Técnica** | RESUMEN_CAMBIOS.md<br>RESUMEN_CAMBIOS_BIN.md | Detalles de implementación |
 | **Historial** | CHANGELOG.md | Registro de versiones |
-| **Scripts** | crear_excel_ejemplo.py<br>test_bin.py<br>test_modificar_producto.py<br>test_exportar_bd.py | Utilidades y pruebas |
+| **Scripts** | crear_excel_ejemplo.py<br>test_bin.py<br>test_modificar_producto.py<br>test_exportar_bd.py<br>test_purgar_bd.py | Utilidades y pruebas |
 
 ---
 

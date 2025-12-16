@@ -7,6 +7,100 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [2.3.0] - 2025-12-16
+
+### ✨ Características Añadidas
+
+#### Purgar Base de Datos
+- **Botón "🗑️ Purgar Base de Datos"** en la barra superior (a la izquierda de "Exportar Base de Datos")
+- **Eliminación completa** de todos los productos del inventario
+- **Sistema de doble confirmación** para prevenir eliminaciones accidentales:
+  1. **Primera confirmación**: Diálogo de advertencia mostrando cantidad de productos y recomendación de exportar
+  2. **Segunda confirmación**: Campo de texto donde el usuario debe escribir exactamente "purgar" (minúsculas, sin espacios)
+- **Validación estricta**: No procede si la palabra no coincide exactamente
+- **Mensajes informativos**: Confirma éxito o informa si se cancela la operación
+
+#### Casos de Uso
+1. **Limpiar datos de prueba**: Eliminar productos de ejemplo antes de cargar datos reales
+2. **Reiniciar inventario**: Comenzar desde cero sin productos previos
+3. **Preparar para importación limpia**: Asegurar que no hay conflictos con datos antiguos
+4. **Mantenimiento**: Limpiar base de datos para reorganización completa
+
+#### Funcionalidades Técnicas
+- `purgar_base_datos()` en `gui.py`: Función completa con doble confirmación (~150 líneas)
+- Validación de inventario vacío antes de purgar
+- Primer diálogo: `messagebox.askwarning()` con advertencia clara
+- Segundo diálogo: Ventana personalizada con campo de texto para escribir "purgar"
+- Limpieza completa: `inventario.productos.clear()`
+- Invalidación de caché: `inventario._invalidar_cache()`
+- Actualización de vista: Vuelve al mensaje de bienvenida
+- Contadores: Informa cantidad de productos eliminados
+
+### 📝 Archivos Modificados
+
+#### `gui.py`
+- Agregado botón "🗑️ Purgar Base de Datos" en título_frame (línea ~131)
+- Nueva función `purgar_base_datos()` (~150 líneas)
+- Diálogo personalizado con validación de texto
+- Manejo de tres escenarios: inventario vacío, cancelación, purga exitosa
+
+### 📚 Documentación Nueva
+
+- **test_purgar_bd.py**: Script de pruebas que verifica:
+  - Purga completa de 5 productos
+  - Inventario queda vacío (0 productos)
+  - Permite agregar productos después de purgar
+  - No quedan rastros de productos antiguos
+  - Maneja correctamente inventario vacío
+  - ✓ Todas las pruebas pasan (7/7 escenarios)
+
+### 🔧 Archivos Actualizados
+
+- **README.md**: 
+  - Renombrada sección de "Carga y Exportación" a "Gestión de Datos"
+  - Agregada subsección "Purgar Base de Datos" con características y advertencias
+  - Explicado sistema de doble confirmación
+
+### 📊 Estadísticas de Cambios
+
+- **Líneas de código añadidas**: ~150 en gui.py
+- **Archivos nuevos**: 1 (test_purgar_bd.py)
+- **Archivos modificados**: 2 (gui.py, README.md)
+- **Botones nuevos**: 1 (Purgar Base de Datos)
+- **Niveles de confirmación**: 2 (doble seguridad)
+- **Productos eliminados en prueba**: 5/5 (100%)
+
+### 🎯 Seguridad y Validaciones
+
+1. **Advertencia clara**: Mensaje explícito de que la acción es irreversible
+2. **Confirmación escrita**: Usuario debe escribir "purgar" exactamente
+3. **Recomendación de respaldo**: Sugiere usar "Exportar BD" antes de purgar
+4. **Contador visible**: Muestra cantidad de productos que se eliminarán
+5. **Cancelación en cualquier momento**: Usuario puede cancelar en ambas confirmaciones
+6. **Mensaje de cancelación**: Confirma que no se eliminó nada si se cancela
+7. **Validación de palabra**: Rechaza si la palabra no es exacta (case-sensitive)
+
+### ⚠️ Advertencias Importantes
+
+- **ACCIÓN PERMANENTE**: No se puede deshacer la purga
+- **SIN RESPALDO AUTOMÁTICO**: La purga no crea respaldo automáticamente
+- **REQUIERE CONFIRMACIÓN MANUAL**: Usuario debe escribir "purgar" para proceder
+- **RECOMENDACIÓN**: Siempre exportar antes de purgar datos importantes
+
+### ✅ Pruebas Realizadas
+
+- ✓ Purga de 5 productos exitosa
+- ✓ Inventario queda vacío (0 productos)
+- ✓ Nuevos productos se pueden agregar después
+- ✓ Productos antiguos no quedan rastros
+- ✓ Manejo de inventario vacío correcto
+- ✓ Validación de palabra "purgar" funciona
+- ✓ Cancelación en ambos niveles funciona
+- ✓ Interfaz gráfica muestra botón correctamente
+- ✓ Mensajes informativos apropiados
+
+---
+
 ## [2.2.0] - 2025-12-16
 
 ### ✨ Características Añadidas

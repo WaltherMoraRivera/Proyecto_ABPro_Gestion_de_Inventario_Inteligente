@@ -130,6 +130,12 @@ class SistemaInventarioGUI:
                                  command=self.exportar_base_datos)
         btn_exportar.pack(side=tk.RIGHT, padx=5)
         
+        # Botón de purgar base de datos
+        btn_purgar = ttk.Button(titulo_frame,
+                               text="🗑️ Purgar Base de Datos",
+                               command=self.purgar_base_datos)
+        btn_purgar.pack(side=tk.RIGHT, padx=5)
+        
         # Panel izquierdo (Menú de opciones)
         self.crear_panel_menu(main_frame)
         
@@ -335,6 +341,162 @@ class SistemaInventarioGUI:
             messagebox.showerror(
                 "Error al Exportar",
                 f"No se pudo exportar la base de datos:\n\n{str(e)}"
+            )
+    
+    def purgar_base_datos(self):
+        """Elimina todos los productos del inventario con confirmación de seguridad."""
+        if not self.inventario.productos:
+            messagebox.showinfo(
+                "Inventario Vacío",
+                "No hay productos en el inventario para purgar."
+            )
+            return
+        
+        # Contar productos actuales
+        cantidad_productos = len(self.inventario.productos)
+        
+        # Primer nivel de confirmación
+        respuesta = messagebox.askwarning(
+            "⚠️ ADVERTENCIA - Purgar Base de Datos",
+            f"Esta acción ELIMINARÁ PERMANENTEMENTE todos los productos del inventario.\n\n"
+            f"Productos actuales: {cantidad_productos}\n\n"
+            f"⚠️ ESTA ACCIÓN NO SE PUEDE DESHACER ⚠️\n\n"
+            f"Se recomienda usar 'Exportar Base de Datos' antes de purgar.\n\n"
+            f"¿Desea continuar?",
+            type=messagebox.OKCANCEL
+        )
+        
+        if respuesta != 'ok':
+            return
+        
+        # Segundo nivel de confirmación: Escribir "purgar"
+        dialog = tk.Toplevel(self.root)
+        dialog.title("Confirmar Purga de Base de Datos")
+        dialog.geometry("500x250")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # Centrar el diálogo
+        dialog.update_idletasks()
+        x = (dialog.winfo_screenwidth() // 2) - (dialog.winfo_width() // 2)
+        y = (dialog.winfo_screenheight() // 2) - (dialog.winfo_height() // 2)
+        dialog.geometry(f"+{x}+{y}")
+        
+        frame = ttk.Frame(dialog, padding="20")
+        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        dialog.columnconfigure(0, weight=1)
+        dialog.rowconfigure(0, weight=1)
+        
+        # Título de advertencia
+        titulo = ttk.Label(
+            frame,
+            text="🔴 CONFIRMACIÓN FINAL DE PURGA",
+            font=('Segoe UI', 14, 'bold'),
+            foreground='#F44336'
+        )
+        titulo.grid(row=0, column=0, columnspan=2, pady=(0, 15))
+        
+        # Mensaje de confirmación
+        mensaje = ttk.Label(
+            frame,
+            text=f"Se eliminarán {cantidad_productos} productos de forma PERMANENTE.\n\n"
+                 f"Para confirmar esta acción, escriba la palabra:\n"
+                 f"purgar\n\n"
+                 f"(en minúsculas, sin espacios)",
+            font=('Segoe UI', 10),
+            justify=tk.CENTER
+        )
+        mensaje.grid(row=1, column=0, columnspan=2, pady=(0, 15))
+        
+        # Campo de texto para confirmación
+        ttk.Label(frame, text="Escriba 'purgar' para confirmar:").grid(
+            row=2, column=0, sticky=tk.W, pady=5
+        )
+        confirmacion_entry = ttk.Entry(frame, width=30, font=('Segoe UI', 10))
+        confirmacion_entry.grid(row=2, column=1, pady=5, sticky=(tk.W, tk.E))
+        confirmacion_entry.focus()
+        
+        # Variable para controlar si se confirmó
+        confirmado = {'valor': False}
+        
+        def confirmar_purga():
+            """Verifica la palabra de confirmación y procede con la purga."""
+            palabra = confirmacion_entry.get().strip()
+            
+            if palabra != "purgar":
+                messagebox.showerror(
+                    "Error de Confirmación",
+                    f"La palabra ingresada '{palabra}' no es correcta.\n\n"
+                    f"Debe escribir exactamente: purgar\n"
+                    f"(en minúsculas, sin espacios)"
+                )
+                confirmacion_entry.delete(0, tk.END)
+                confirmacion_entry.focus()
+                return
+            
+            # Confirmación correcta, proceder con purga
+            confirmado['valor'] = True
+            dialog.destroy()
+        
+        def cancelar():
+            """Cancela la operación de purga."""
+            dialog.destroy()
+        
+        # Botones
+        btn_frame = ttk.Frame(frame)
+        btn_frame.grid(row=3, column=0, columnspan=2, pady=20)
+        
+        ttk.Button(
+            btn_frame,
+            text="❌ Cancelar",
+            command=cancelar
+        ).pack(side=tk.LEFT, padx=5)
+        
+        ttk.Button(
+            btn_frame,
+            text="🗑️ Confirmar Purga",
+            command=confirmar_purga
+        ).pack(side=tk.LEFT, padx=5)
+        
+        # Esperar a que se cierre el diálogo
+        dialog.wait_window()
+        
+        # Si no se confirmó, cancelar
+        if not confirmado['valor']:
+            messagebox.showinfo(
+                "Purga Cancelada",
+                "La operación de purga fue cancelada.\n\n"
+                "No se eliminó ningún producto."
+            )
+            return
+        
+        # Proceder con la purga
+        try:
+            # Obtener lista de IDs antes de eliminar (para el mensaje)
+            ids_eliminados = list(self.inventario.productos.keys())
+            productos_eliminados = cantidad_productos
+            
+            # Eliminar todos los productos
+            self.inventario.productos.clear()
+            self.inventario._invalidar_cache()
+            
+            # Actualizar vista
+            self.actualizar_vista_productos()
+            self.mostrar_mensaje_bienvenida()
+            
+            # Mensaje de éxito
+            messagebox.showinfo(
+                "Purga Completada",
+                f"✓ Base de datos purgada exitosamente.\n\n"
+                f"Productos eliminados: {productos_eliminados}\n"
+                f"Inventario actual: 0 productos\n\n"
+                f"Puede cargar nuevos datos usando 'Cargar Excel'."
+            )
+            
+        except Exception as e:
+            messagebox.showerror(
+                "Error al Purgar",
+                f"Ocurrió un error durante la purga:\n\n{str(e)}"
             )
     
     def abrir_dialogo_mapeo_columnas(self, df: pd.DataFrame, archivo: str):
