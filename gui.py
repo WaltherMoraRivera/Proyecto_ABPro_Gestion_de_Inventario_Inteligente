@@ -250,8 +250,15 @@ class SistemaInventarioGUI:
     
     def actualizar_vista_productos(self):
         """Actualiza la vista después de cambios en el inventario."""
-        # Este método puede ser llamado para refrescar la vista actual
-        pass
+        # Limpiar el área de contenido
+        self.texto_contenido.delete(1.0, tk.END)
+        
+        # Si no hay productos, mostrar mensaje de bienvenida
+        if not self.inventario.productos:
+            self.mostrar_mensaje_bienvenida()
+        else:
+            # Si hay productos, mostrar la lista actualizada
+            self.ver_productos()
     
     # ==================== FUNCIONES DEL MENÚ ====================
     
@@ -356,23 +363,22 @@ class SistemaInventarioGUI:
         cantidad_productos = len(self.inventario.productos)
         
         # Primer nivel de confirmación
-        respuesta = messagebox.askwarning(
+        respuesta = messagebox.askokcancel(
             "⚠️ ADVERTENCIA - Purgar Base de Datos",
             f"Esta acción ELIMINARÁ PERMANENTEMENTE todos los productos del inventario.\n\n"
             f"Productos actuales: {cantidad_productos}\n\n"
             f"⚠️ ESTA ACCIÓN NO SE PUEDE DESHACER ⚠️\n\n"
             f"Se recomienda usar 'Exportar Base de Datos' antes de purgar.\n\n"
-            f"¿Desea continuar?",
-            type=messagebox.OKCANCEL
+            f"¿Desea continuar?"
         )
         
-        if respuesta != 'ok':
+        if not respuesta:
             return
         
         # Segundo nivel de confirmación: Escribir "purgar"
         dialog = tk.Toplevel(self.root)
         dialog.title("Confirmar Purga de Base de Datos")
-        dialog.geometry("500x250")
+        dialog.geometry("500x300")
         dialog.transient(self.root)
         dialog.grab_set()
         

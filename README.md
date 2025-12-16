@@ -253,7 +253,6 @@ pytest tests/ -v --cov=.
    - Acción permanente e irreversible
    - Útil para limpiar datos de prueba antes de cargar datos reales
    - Recomendación: Exportar antes de purgar
-   - Ideal para respaldos y transferencia de datos
 
 3. **🎯 Funcionalidades Integradas**
    - **Ver todos los productos** (agrupados con stock total y desglose por BIN)

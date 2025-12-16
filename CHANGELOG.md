@@ -7,6 +7,40 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [2.3.1] - 2025-12-16
+
+### 🐛 Correcciones de Errores
+
+#### Corrección Funcionalidad Purgar Base de Datos
+- **Corregido error crítico**: `messagebox.askwarning()` no existe en tkinter
+  - Cambiado a `messagebox.askokcancel()` (método correcto)
+  - Actualizada validación de respuesta
+- **Implementada actualización de vista**: Función `actualizar_vista_productos()` estaba vacía
+  - Ahora limpia el contenido después de purgar
+  - Muestra mensaje de bienvenida cuando inventario está vacío
+  - Muestra lista de productos cuando hay productos
+- **Ajustado tamaño de ventana de confirmación**:
+  - Altura aumentada de 250px a 300px
+  - Los botones "Cancelar" y "Confirmar Purga" ahora son completamente visibles
+
+### 🧪 Pruebas
+- Agregado `test_purgar_funcional.py`: Script de validación completo
+  - Verifica purga de 5 productos
+  - Valida inventario vacío después de purgar
+  - Confirma que se pueden agregar productos post-purga
+  - Todas las pruebas pasan exitosamente ✅
+
+### 📝 Archivos Modificados
+- `gui.py`: Correcciones en líneas 251-260 (actualizar_vista_productos) y 360-381 (purgar_base_datos)
+- `README.md`: Limpieza de línea duplicada
+- `CHANGELOG.md`: Agregada versión 2.3.1
+
+### 📚 Documentación
+- `CORRECCION_PURGAR.md`: Documento técnico detallando todos los problemas y soluciones
+- `test_purgar_funcional.py`: 212 líneas de pruebas automatizadas
+
+---
+
 ## [2.3.0] - 2025-12-16
 
 ### ✨ Características Añadidas
