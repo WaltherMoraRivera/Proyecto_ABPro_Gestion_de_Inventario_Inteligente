@@ -7,9 +7,9 @@ from models import Producto, Inventario
 inv = Inventario()
 
 # Crear productos en diferentes BINs
-p1 = Producto(1, "Router WiFi", 89.99, 15, 10, 40, "Redes", "100012", "012345678912", "002/015/008")
-p2 = Producto(2, "Router WiFi", 89.99, 10, 10, 40, "Redes", "100012", "012345678912", "003/010/004")
-p3 = Producto(3, "Laptop HP", 899.99, 20, 5, 50, "Electrónica", "100001", "012345678901", "001/020/006")
+p1 = Producto(1, "Router WiFi", 89.990, 15, 10, 40, "Redes", "100012", "012345678912", "002/015/008")
+p2 = Producto(2, "Router WiFi", 89.990, 10, 10, 40, "Redes", "100012", "012345678912", "003/010/004")
+p3 = Producto(3, "Laptop HP", 899.990, 20, 5, 50, "Electrónica", "100001", "012345678901", "001/020/006")
 
 inv.agregar_producto(p1)
 inv.agregar_producto(p2)

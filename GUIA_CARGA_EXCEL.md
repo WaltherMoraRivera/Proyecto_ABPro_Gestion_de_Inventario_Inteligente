@@ -36,8 +36,8 @@ Crea un archivo Excel (.xlsx o .xls) con tus datos de inventario. Las columnas p
 ```
 | ID_Producto | Num_Item | UPC          | Descripcion    | Precio_Unitario | Cantidad_Stock | ... |
 |-------------|----------|--------------|----------------|-----------------|----------------|-----|
-| 11          | 100011   | 012345678911 | Laptop Dell    | 899.99          | 10             | ... |
-| 12          | 100012   | 012345678912 | Mouse Logitech | 29.99           | 50             | ... |
+| 11          | 100011   | 012345678911 | Laptop Dell    | 899.990          | 10             | ... |
+| 12          | 100012   | 012345678912 | Mouse Logitech | 29.990          | 50             | ... |
 ```
 
 ### Paso 2: Cargar el Archivo
@@ -89,9 +89,9 @@ Si el sistema encuentra un producto con el mismo **Número Item** o **Código UP
 1. **Atributos mapeados:** Se actualizan con los valores del Excel
 2. **Atributos con "No cargar datos":** Se mantienen los valores previos
 3. Ejemplo:
-   - Producto existente: `Laptop Dell` con precio $899.99
+   - Producto existente: `Laptop Dell` con precio $899.990
    - Excel solo mapea: Nombre y Stock Actual
-   - Resultado: Se actualiza nombre y stock, el precio se mantiene en $899.99
+   - Resultado: Se actualiza nombre y stock, el precio se mantiene en $899.990
 
 ### Producto Nuevo (Creación)
 
@@ -112,8 +112,8 @@ Si el producto NO existe en el inventario:
 ```
 | ID_Producto | Num_Item | UPC          | Descripcion      | Precio_Unitario | Cantidad_Stock |
 |-------------|----------|--------------|------------------|-----------------|----------------|
-| 11          | 100011   | 012345678911 | Impresora HP     | 299.99          | 8              |
-| 2           | 100002   | 012345678902 | Mouse Actualizado| 34.99           | 60             |
+| 11          | 100011   | 012345678911 | Impresora HP     | 299.990          | 8              |
+| 2           | 100002   | 012345678902 | Mouse Actualizado| 34.990           | 60             |
 ```
 
 ### Mapeo Configurado:
@@ -130,12 +130,12 @@ Si el producto NO existe en el inventario:
 ### Resultado:
 1. **Producto ID=11** (nuevo):
    - Se crea con: ID=11, numero_item=100011, UPC=012345678911
-   - Nombre: "Impresora HP", Precio: 299.99, Stock: 8
+   - Nombre: "Impresora HP", Precio: 299.990, Stock: 8
    - Stock Mín/Máx: 10/100 (valores por defecto)
    - Categoría: "N/D"
 
 2. **Producto numero_item=100002** (existente, era "Mouse Inalámbrico"):
-   - Se actualiza: Nombre → "Mouse Actualizado", Precio → 34.99, Stock → 60
+   - Se actualiza: Nombre → "Mouse Actualizado", Precio → 34.990, Stock → 60
    - Stock Mín/Máx y Categoría: Se mantienen los valores previos (20/100, "Accesorios")
 
 ## ⚠️ Notas Importantes

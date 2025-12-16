@@ -45,15 +45,15 @@ class SistemaInventario:
     def _cargar_datos_ejemplo(self):
         """Carga datos de ejemplo para demostración."""
         productos_ejemplo = [
-            Producto(1, "Laptop HP 15", 899.99, 15, 5, 50, "Electrónica"),
-            Producto(2, "Mouse Inalámbrico", 29.99, 45, 20, 100, "Accesorios"),
-            Producto(3, "Teclado Mecánico", 79.99, 8, 10, 40, "Accesorios"),
-            Producto(4, "Monitor 24\" LG", 249.99, 12, 5, 30, "Electrónica"),
-            Producto(5, "Cable HDMI 2m", 14.99, 3, 30, 200, "Accesorios"),
-            Producto(6, "Disco SSD 500GB", 69.99, 25, 15, 60, "Almacenamiento"),
-            Producto(7, "Memoria USB 64GB", 12.99, 50, 25, 150, "Almacenamiento"),
-            Producto(8, "Webcam HD", 49.99, 18, 10, 40, "Accesorios"),
-            Producto(9, "Audífonos Bluetooth", 59.99, 22, 15, 50, "Audio"),
+            Producto(1, "Laptop HP 15", 899.990, 15, 5, 50, "Electrónica"),
+            Producto(2, "Mouse Inalámbrico", 299.90, 45, 20, 100, "Accesorios"),
+            Producto(3, "Teclado Mecánico", 79.990, 8, 10, 40, "Accesorios"),
+            Producto(4, "Monitor 24\" LG", 249.990, 12, 5, 30, "Electrónica"),
+            Producto(5, "Cable HDMI 2m", 14.990, 3, 30, 200, "Accesorios"),
+            Producto(6, "Disco SSD 500GB", 69.990, 25, 15, 60, "Almacenamiento"),
+            Producto(7, "Memoria USB 64GB", 12.990, 50, 25, 150, "Almacenamiento"),
+            Producto(8, "Webcam HD", 49.990, 18, 10, 40, "Accesorios"),
+            Producto(9, "Audífonos Bluetooth", 59.990, 22, 15, 50, "Audio"),
             Producto(10, "Cargador Universal", 24.99, 30, 20, 80, "Accesorios"),
         ]
         

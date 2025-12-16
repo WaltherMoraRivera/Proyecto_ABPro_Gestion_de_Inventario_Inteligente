@@ -52,9 +52,24 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ---
 
+### 4. [GUIA_MODIFICAR_PRODUCTO.md](GUIA_MODIFICAR_PRODUCTO.md) ✨ **NUEVO**
+**Propósito**: Guía completa para buscar y modificar productos existentes  
+**Contenido**:
+- Tres métodos de búsqueda (ID, Número Item, Código UPC)
+- Visualización de datos actuales
+- Modificación de uno o varios atributos
+- Campos pre-llenados con valores actuales
+- Validaciones y consideraciones
+- Ejemplos prácticos y casos de uso
+- Diagrama de flujo del proceso
+
+**Cuándo usar**: Cuando necesites editar información de productos existentes
+
+---
+
 ## 🔧 Documentación Técnica
 
-### 4. [RESUMEN_CAMBIOS.md](RESUMEN_CAMBIOS.md)
+### 5. [RESUMEN_CAMBIOS.md](RESUMEN_CAMBIOS.md)
 **Propósito**: Documentación técnica de la implementación inicial de carga desde Excel  
 **Contenido**:
 - Cambios en clases Producto e Inventario
@@ -67,7 +82,7 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ---
 
-### 5. [RESUMEN_CAMBIOS_BIN.md](RESUMEN_CAMBIOS_BIN.md)
+### 6. [RESUMEN_CAMBIOS_BIN.md](RESUMEN_CAMBIOS_BIN.md)
 **Propósito**: Documentación técnica completa del sistema BIN  
 **Contenido**:
 - Cambios en el modelo de datos
@@ -81,10 +96,10 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ---
 
-### 6. [CHANGELOG.md](CHANGELOG.md)
+### 7. [CHANGELOG.md](CHANGELOG.md)
 **Propósito**: Registro cronológico de todas las versiones y cambios  
 **Contenido**:
-- Historial de versiones (1.0.0, 1.1.0, 2.0.0)
+- Historial de versiones (1.0.0, 1.1.0, 2.0.0, 2.1.0)
 - Características añadidas por versión
 - Archivos modificados en cada versión
 - Tipos de cambios (Features, Fixes, Docs, etc.)
@@ -95,7 +110,7 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ## 🛠️ Scripts y Utilidades
 
-### 7. [crear_excel_ejemplo.py](crear_excel_ejemplo.py)
+### 8. [crear_excel_ejemplo.py](crear_excel_ejemplo.py)
 **Propósito**: Script para generar archivo Excel de ejemplo  
 **Uso**:
 ```bash
@@ -108,7 +123,7 @@ python crear_excel_ejemplo.py
 
 ---
 
-### 8. [test_bin.py](test_bin.py)
+### 9. [test_bin.py](test_bin.py)
 **Propósito**: Script de pruebas del sistema BIN  
 **Uso**:
 ```bash
@@ -120,6 +135,21 @@ python test_bin.py
 - Diccionario de ubicaciones
 - Búsqueda por BIN específico
 - Agrupación de productos
+
+---
+
+### 10. [test_modificar_producto.py](test_modificar_producto.py) ✨ **NUEVO**
+**Propósito**: Script de pruebas para la funcionalidad de modificación de productos  
+**Uso**:
+```bash
+python test_modificar_producto.py
+```
+**Verifica**:
+- Búsqueda de productos por ID
+- Búsqueda de productos por Número de Item
+- Búsqueda de productos por Código UPC
+- Modificación de atributos (precio, stock, categoría)
+- Persistencia de cambios
 
 ---
 
@@ -136,6 +166,11 @@ python test_bin.py
 2. Revisar ejemplos en `inventario_ejemplo.xlsx`
 3. Ejecutar `python test_bin.py` para ver el sistema en acción
 
+### Para Modificar Productos Existentes
+1. Leer [GUIA_MODIFICAR_PRODUCTO.md](GUIA_MODIFICAR_PRODUCTO.md)
+2. Ejecutar `python test_modificar_producto.py` para ver ejemplos
+3. Usar la opción "✏️ Modificar Producto" en la GUI
+
 ### Para Desarrolladores
 1. [README.md](README.md) - Arquitectura general
 2. [RESUMEN_CAMBIOS.md](RESUMEN_CAMBIOS.md) - Implementación carga Excel
@@ -149,10 +184,10 @@ python test_bin.py
 | Tipo | Archivos | Propósito |
 |------|----------|-----------|
 | **Principal** | README.md | Documentación general y punto de entrada |
-| **Guías de Usuario** | GUIA_CARGA_EXCEL.md<br>GUIA_BIN.md | Instrucciones paso a paso |
+| **Guías de Usuario** | GUIA_CARGA_EXCEL.md<br>GUIA_BIN.md<br>GUIA_MODIFICAR_PRODUCTO.md | Instrucciones paso a paso |
 | **Técnica** | RESUMEN_CAMBIOS.md<br>RESUMEN_CAMBIOS_BIN.md | Detalles de implementación |
 | **Historial** | CHANGELOG.md | Registro de versiones |
-| **Scripts** | crear_excel_ejemplo.py<br>test_bin.py | Utilidades y pruebas |
+| **Scripts** | crear_excel_ejemplo.py<br>test_bin.py<br>test_modificar_producto.py | Utilidades y pruebas |
 
 ---
 

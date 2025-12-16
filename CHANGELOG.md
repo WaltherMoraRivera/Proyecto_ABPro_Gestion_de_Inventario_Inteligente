@@ -7,6 +7,87 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [2.1.0] - 2025-12-16
+
+### ✨ Características Añadidas
+
+#### Modificación de Productos Existentes
+- **Opción "Modificar Producto" en el menú**: Nueva funcionalidad en la interfaz gráfica
+- **Búsqueda flexible por tres métodos**:
+  - Por ID del producto
+  - Por Número de Item (6 dígitos)
+  - Por Código UPC
+- **Visualización completa de datos actuales**: Muestra todos los atributos del producto antes de modificar
+- **Edición múltiple**: Permite modificar uno o varios atributos simultáneamente
+- **Campos pre-llenados**: Todos los campos se cargan con los valores actuales
+- **Validaciones robustas**:
+  - Verificación de tipos de datos (ID entero, precio decimal, stock entero)
+  - Stock no puede ser negativo
+  - ID único (no puede cambiar a un ID existente)
+  - Manejo de valores vacíos (mantiene valor original si el campo está en blanco)
+
+#### Funcionalidades Técnicas
+- `modificar_producto()` en `gui.py`: Diálogo de búsqueda con tres métodos
+- `abrir_dialogo_modificacion(producto)` en `gui.py`: Formulario completo de edición
+- Actualización automática del caché de matriz tras modificaciones
+- Cambio de ID soportado (elimina producto con ID antiguo y crea nuevo)
+- Actualización automática de la vista de productos tras modificar
+
+### 📝 Archivos Modificados
+
+#### `gui.py`
+- Agregada opción "✏️ Modificar Producto" al menú principal (línea ~142)
+- Nueva función `modificar_producto()`: Diálogo de búsqueda
+- Nueva función `abrir_dialogo_modificacion(producto)`: Formulario de edición
+- Aproximadamente 260 líneas de código añadidas
+
+### 📚 Documentación Nueva
+
+- **GUIA_MODIFICAR_PRODUCTO.md**: Guía completa con:
+  - Proceso paso a paso de búsqueda y modificación
+  - Explicación de cada campo editable
+  - Validaciones y consideraciones importantes
+  - 4 ejemplos prácticos de uso
+  - Diagrama de flujo del proceso
+  - Notas técnicas y arquitectura
+
+- **test_modificar_producto.py**: Script de pruebas que verifica:
+  - Búsqueda por ID (modifica precio)
+  - Búsqueda por Número de Item (modifica stock)
+  - Búsqueda por Código UPC (modifica categoría)
+  - Persistencia de cambios
+  - Todas las pruebas pasan exitosamente ✓
+
+### 🔧 Archivos Actualizados
+
+- **README.md**: 
+  - Agregada funcionalidad "Modificar productos existentes" en sección de Funcionalidades
+  - Actualizada lista de métodos de gestión de productos
+  
+- **INDICE_DOCUMENTACION.md**:
+  - Nueva sección para GUIA_MODIFICAR_PRODUCTO.md
+  - Agregado test_modificar_producto.py a Scripts y Utilidades
+  - Actualizado mapa de navegación
+  - Actualizada tabla de resumen
+
+### 📊 Estadísticas de Cambios
+
+- **Líneas de código añadidas**: ~260 en gui.py
+- **Archivos nuevos**: 2 (guía + script de pruebas)
+- **Archivos modificados**: 3 (gui.py, README.md, INDICE_DOCUMENTACION.md)
+- **Funciones nuevas**: 2 (modificar_producto, abrir_dialogo_modificacion)
+- **Documentación**: ~350 líneas en GUIA_MODIFICAR_PRODUCTO.md
+
+### 🎯 Mejoras de Usabilidad
+
+- **Interfaz intuitiva**: Proceso de dos pasos (buscar → modificar)
+- **Campos pre-llenados**: El usuario ve inmediatamente los valores actuales
+- **Flexibilidad**: Modifica solo lo necesario, el resto se mantiene
+- **Mensajes claros**: Confirmaciones y errores descriptivos
+- **Actualización automática**: La vista se refresca tras guardar cambios
+
+---
+
 ## [2.0.0] - 2025-12-11
 
 ### 🎉 Características Principales Añadidas

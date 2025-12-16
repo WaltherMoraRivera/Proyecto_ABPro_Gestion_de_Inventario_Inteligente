@@ -61,8 +61,8 @@ p = [id, precio, stock_actual, stock_mínimo, stock_máximo]
 
 Ejemplo:
 ```
-Laptop HP en BIN 001/020/006 = [1, 899.99, 15, 5, 50]
-Laptop HP en BIN 002/015/003 = [2, 899.99, 10, 5, 50]
+Laptop HP en BIN 001/020/006 = [1, 899.990, 15, 5, 50]
+Laptop HP en BIN 002/015/003 = [2, 899.990, 10, 5, 50]
 Stock Total de Laptop HP = 25 unidades
 ```
 
@@ -245,6 +245,12 @@ pytest tests/ -v --cov=.
    - Reportes completos (DataFrame con columna BIN)
    - Análisis por categoría
    - Agregar nuevos productos (formulario con campo BIN)
+   - **✏️ Modificar productos existentes**:
+     - Búsqueda por ID, Número de Item o Código UPC
+     - Visualización de todos los atributos actuales
+     - Edición de uno o múltiples campos simultáneamente
+     - Campos pre-llenados con valores actuales
+     - Validación automática de datos
 
 ### Sistema BIN - Gestión de Ubicaciones
 
@@ -274,6 +280,7 @@ inventario.obtener_productos_agrupados()
 
 1. **Gestión de Productos**
    - Agregar/eliminar productos
+   - **Modificar productos existentes** (búsqueda por ID/Item/UPC)
    - Representación vectorial automática
    - Soporte para múltiples ubicaciones (BINs)
    - Identificadores únicos: ID, Número Item, Código UPC

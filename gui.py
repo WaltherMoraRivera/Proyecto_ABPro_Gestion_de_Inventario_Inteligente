@@ -145,6 +145,7 @@ class SistemaInventarioGUI:
             ("📈 Reporte Completo", self.ver_reporte),
             ("📂 Análisis por Categoría", self.ver_analisis_categoria),
             ("➕ Agregar Producto", self.agregar_producto),
+            ("✏️ Modificar Producto", self.modificar_producto),
         ]
         
         # Crear botones para cada opción
@@ -218,17 +219,17 @@ class SistemaInventarioGUI:
     def _cargar_datos_ejemplo(self):
         """Carga datos de ejemplo para demostración."""
         productos_ejemplo = [
-            Producto(1, "Laptop HP 15", 899.99, 15, 5, 50, "Electrónica", "100001", "012345678901", "001/020/006"),
-            Producto(2, "Laptop HP 15", 899.99, 10, 5, 50, "Electrónica", "100001", "012345678901", "002/015/003"),
-            Producto(3, "Mouse Inalámbrico", 29.99, 45, 20, 100, "Accesorios", "100002", "012345678902", "001/020/007"),
-            Producto(4, "Teclado Mecánico", 79.99, 8, 10, 40, "Accesorios", "100003", "012345678903", "001/020/008"),
-            Producto(5, "Monitor 24\" LG", 249.99, 12, 5, 30, "Electrónica", "100004", "012345678904", "001/020/009"),
-            Producto(6, "Cable HDMI 2m", 14.99, 3, 30, 200, "Accesorios", "100005", "012345678905", "003/010/001"),
-            Producto(7, "Disco SSD 500GB", 69.99, 25, 15, 60, "Almacenamiento", "100006", "012345678906", "002/015/005"),
-            Producto(8, "Memoria USB 64GB", 12.99, 50, 25, 150, "Almacenamiento", "100007", "012345678907", "002/015/006"),
-            Producto(9, "Webcam HD", 49.99, 18, 10, 40, "Accesorios", "100008", "012345678908", "001/020/010"),
-            Producto(10, "Audífonos Bluetooth", 59.99, 22, 15, 50, "Audio", "100009", "012345678909", "001/020/011"),
-            Producto(11, "Cargador Universal", 24.99, 30, 20, 80, "Accesorios", "100010", "012345678910", "003/010/002"),
+            Producto(1, "Laptop HP 15", 899.990, 15, 5, 50, "Electrónica", "100001", "012345678901", "001/020/006"),
+            Producto(2, "Laptop HP 15", 899.990, 10, 5, 50, "Electrónica", "100001", "012345678901", "002/015/003"),
+            Producto(3, "Mouse Inalámbrico", 29.990, 45, 20, 100, "Accesorios", "100002", "012345678902", "001/020/007"),
+            Producto(4, "Teclado Mecánico", 79.990, 8, 10, 40, "Accesorios", "100003", "012345678903", "001/020/008"),
+            Producto(5, "Monitor 24\" LG", 249.990, 12, 5, 30, "Electrónica", "100004", "012345678904", "001/020/009"),
+            Producto(6, "Cable HDMI 2m", 14.990, 3, 30, 200, "Accesorios", "100005", "012345678905", "003/010/001"),
+            Producto(7, "Disco SSD 500GB", 69.990, 25, 15, 60, "Almacenamiento", "100006", "012345678906", "002/015/005"),
+            Producto(8, "Memoria USB 64GB", 12.990, 50, 25, 150, "Almacenamiento", "100007", "012345678907", "002/015/006"),
+            Producto(9, "Webcam HD", 49.099, 18, 10, 40, "Accesorios", "100008", "012345678908", "001/020/010"),
+            Producto(10, "Audífonos Bluetooth", 59.990, 22, 15, 50, "Audio", "100009", "012345678909", "001/020/011"),
+            Producto(11, "Cargador Universal", 24.990, 30, 20, 80, "Accesorios", "100010", "012345678910", "003/010/002"),
         ]
         
         for producto in productos_ejemplo:
@@ -952,6 +953,273 @@ Columnas: [ID, Precio, Stock, Mínimo, Máximo]
         
         ttk.Button(btn_frame, text="Confirmar", command=confirmar).pack(side=tk.LEFT, padx=5)
         ttk.Button(btn_frame, text="Cancelar", command=dialog.destroy).pack(side=tk.LEFT, padx=5)
+    
+    def modificar_producto(self):
+        """Abre un diálogo para buscar y modificar un producto existente."""
+        # Primer diálogo: seleccionar método de búsqueda
+        dialog_busqueda = tk.Toplevel(self.root)
+        dialog_busqueda.title("Buscar Producto para Modificar")
+        dialog_busqueda.geometry("450x300")
+        dialog_busqueda.transient(self.root)
+        dialog_busqueda.grab_set()
+        
+        # Centrar el diálogo
+        dialog_busqueda.update_idletasks()
+        x = (dialog_busqueda.winfo_screenwidth() // 2) - (dialog_busqueda.winfo_width() // 2)
+        y = (dialog_busqueda.winfo_screenheight() // 2) - (dialog_busqueda.winfo_height() // 2)
+        dialog_busqueda.geometry(f"+{x}+{y}")
+        
+        frame = ttk.Frame(dialog_busqueda, padding="20")
+        frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        
+        # Título
+        ttk.Label(frame, text="Buscar Producto", style='Subtitle.TLabel').grid(
+            row=0, column=0, columnspan=2, pady=(0, 15)
+        )
+        
+        # Método de búsqueda
+        ttk.Label(frame, text="Buscar por:").grid(row=1, column=0, sticky=tk.W, pady=5)
+        metodo_var = tk.StringVar(value="id")
+        
+        metodos_frame = ttk.Frame(frame)
+        metodos_frame.grid(row=1, column=1, sticky=tk.W, pady=5)
+        
+        ttk.Radiobutton(metodos_frame, text="ID", variable=metodo_var, value="id").pack(side=tk.LEFT, padx=5)
+        ttk.Radiobutton(metodos_frame, text="Número Item", variable=metodo_var, value="numero_item").pack(side=tk.LEFT, padx=5)
+        ttk.Radiobutton(metodos_frame, text="Código UPC", variable=metodo_var, value="codigo_upc").pack(side=tk.LEFT, padx=5)
+        
+        # Campo de búsqueda
+        ttk.Label(frame, text="Valor:").grid(row=2, column=0, sticky=tk.W, pady=5)
+        busqueda_entry = ttk.Entry(frame, width=30)
+        busqueda_entry.grid(row=2, column=1, pady=5, sticky=(tk.W, tk.E))
+        
+        # Información
+        info_label = ttk.Label(
+            frame,
+            text="Ingrese el valor del identificador para buscar el producto.",
+            font=('Segoe UI', 9, 'italic'),
+            foreground='#666'
+        )
+        info_label.grid(row=3, column=0, columnspan=2, pady=10)
+        
+        def buscar_y_modificar():
+            """Busca el producto y abre el diálogo de modificación."""
+            metodo = metodo_var.get()
+            valor = busqueda_entry.get().strip()
+            
+            if not valor:
+                messagebox.showerror("Error", "Debe ingresar un valor para buscar.")
+                return
+            
+            # Buscar el producto según el método seleccionado
+            producto = None
+            
+            if metodo == "id":
+                try:
+                    producto_id = int(valor)
+                    producto = self.inventario.obtener_producto(producto_id)
+                except ValueError:
+                    messagebox.showerror("Error", "El ID debe ser un número entero.")
+                    return
+            elif metodo == "numero_item":
+                producto = self.inventario.obtener_producto_por_numero_item(valor)
+            elif metodo == "codigo_upc":
+                producto = self.inventario.obtener_producto_por_codigo_upc(valor)
+            
+            if producto is None:
+                messagebox.showerror(
+                    "Producto no encontrado",
+                    f"No se encontró ningún producto con {metodo.replace('_', ' ').title()}: {valor}"
+                )
+                return
+            
+            # Cerrar diálogo de búsqueda y abrir diálogo de modificación
+            dialog_busqueda.destroy()
+            self.abrir_dialogo_modificacion(producto)
+        
+        # Botones
+        btn_frame = ttk.Frame(frame)
+        btn_frame.grid(row=4, column=0, columnspan=2, pady=20)
+        
+        ttk.Button(btn_frame, text="Buscar", command=buscar_y_modificar, style='Primary.TButton').pack(side=tk.LEFT, padx=5)
+        ttk.Button(btn_frame, text="Cancelar", command=dialog_busqueda.destroy).pack(side=tk.LEFT, padx=5)
+    
+    def abrir_dialogo_modificacion(self, producto: Producto):
+        """Abre el diálogo para modificar los atributos de un producto."""
+        dialog = tk.Toplevel(self.root)
+        dialog.title(f"Modificar Producto - {producto.nombre}")
+        dialog.geometry("550x780")
+        dialog.transient(self.root)
+        dialog.grab_set()
+        
+        # Centrar el diálogo
+        dialog.update_idletasks()
+        x = (dialog.winfo_screenwidth() // 2) - (dialog.winfo_width() // 2)
+        y = (dialog.winfo_screenheight() // 2) - (dialog.winfo_height() // 2)
+        dialog.geometry(f"+{x}+{y}")
+        
+        # Frame principal con scroll
+        main_frame = ttk.Frame(dialog, padding="20")
+        main_frame.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        dialog.columnconfigure(0, weight=1)
+        dialog.rowconfigure(0, weight=1)
+        
+        # Título
+        ttk.Label(
+            main_frame,
+            text=f"Modificar Producto",
+            style='Subtitle.TLabel'
+        ).grid(row=0, column=0, columnspan=2, pady=(0, 10))
+        
+        # Información del producto actual
+        info_frame = ttk.LabelFrame(main_frame, text="  Datos Actuales  ", padding="10")
+        info_frame.grid(row=1, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=(0, 15))
+        
+        info_text = f"""ID: {producto.id}
+Número Item: {producto.numero_item}
+Código UPC: {producto.codigo_upc}
+BIN: {producto.bin}
+Nombre: {producto.nombre}
+Precio: ${producto.precio:.2f}
+Stock Actual: {producto.stock_actual}
+Stock Mínimo: {producto.stock_minimo}
+Stock Máximo: {producto.stock_maximo}
+Categoría: {producto.categoria}"""
+        
+        ttk.Label(info_frame, text=info_text, font=('Consolas', 9)).pack(anchor=tk.W)
+        
+        # Separator
+        ttk.Separator(main_frame, orient='horizontal').grid(
+            row=2, column=0, columnspan=2, sticky=(tk.W, tk.E), pady=10
+        )
+        
+        # Título para nuevos valores
+        ttk.Label(
+            main_frame,
+            text="Nuevos Valores (deje en blanco para mantener el valor actual):",
+            font=('Segoe UI', 10, 'bold')
+        ).grid(row=3, column=0, columnspan=2, pady=(0, 10), sticky=tk.W)
+        
+        # Campos editables
+        campos = [
+            ("ID del Producto:", "id", str(producto.id)),
+            ("Número Item (6 dígitos):", "numero_item", producto.numero_item),
+            ("Código UPC:", "codigo_upc", producto.codigo_upc),
+            ("BIN (Ej: 001/020/006):", "bin", producto.bin),
+            ("Nombre:", "nombre", producto.nombre),
+            ("Precio:", "precio", str(producto.precio)),
+            ("Stock Actual:", "stock", str(producto.stock_actual)),
+            ("Stock Mínimo:", "minimo", str(producto.stock_minimo)),
+            ("Stock Máximo:", "maximo", str(producto.stock_maximo)),
+            ("Categoría:", "categoria", producto.categoria),
+        ]
+        
+        entries = {}
+        row_offset = 4
+        
+        for i, (label, key, valor_actual) in enumerate(campos):
+            ttk.Label(main_frame, text=label).grid(
+                row=row_offset + i, column=0, sticky=tk.W, pady=5
+            )
+            entry = ttk.Entry(main_frame, width=35)
+            entry.grid(row=row_offset + i, column=1, pady=5, sticky=(tk.W, tk.E))
+            entry.insert(0, valor_actual)  # Pre-llenar con valor actual
+            entries[key] = entry
+        
+        # Nota informativa
+        nota_frame = ttk.Frame(main_frame)
+        nota_frame.grid(row=row_offset + len(campos), column=0, columnspan=2, pady=15)
+        
+        ttk.Label(
+            nota_frame,
+            text="💡 Los campos están pre-llenados con los valores actuales.\nModifique solo los que desee cambiar.",
+            font=('Segoe UI', 9, 'italic'),
+            foreground='#2196F3'
+        ).pack()
+        
+        def confirmar_modificacion():
+            """Aplica las modificaciones al producto."""
+            try:
+                # Obtener valores (mantener originales si el campo está vacío)
+                nuevo_id = int(entries['id'].get().strip() or producto.id)
+                nuevo_numero_item = entries['numero_item'].get().strip() or producto.numero_item
+                nuevo_codigo_upc = entries['codigo_upc'].get().strip() or producto.codigo_upc
+                nuevo_bin = entries['bin'].get().strip() or producto.bin
+                nuevo_nombre = entries['nombre'].get().strip() or producto.nombre
+                nuevo_precio = float(entries['precio'].get().strip() or producto.precio)
+                nuevo_stock = int(entries['stock'].get().strip() or producto.stock_actual)
+                nuevo_minimo = int(entries['minimo'].get().strip() or producto.stock_minimo)
+                nuevo_maximo = int(entries['maximo'].get().strip() or producto.stock_maximo)
+                nueva_categoria = entries['categoria'].get().strip() or producto.categoria
+                
+                # Validar que el stock no sea negativo
+                if nuevo_stock < 0:
+                    messagebox.showerror("Error", "El stock no puede ser negativo.")
+                    return
+                
+                # Si se cambió el ID, verificar que no exista otro producto con ese ID
+                if nuevo_id != producto.id and self.inventario.obtener_producto(nuevo_id) is not None:
+                    messagebox.showerror(
+                        "Error",
+                        f"Ya existe un producto con ID {nuevo_id}.\nNo se puede cambiar el ID a uno existente."
+                    )
+                    return
+                
+                # Aplicar cambios
+                # Si cambió el ID, necesitamos eliminar el antiguo y crear uno nuevo
+                if nuevo_id != producto.id:
+                    self.inventario.eliminar_producto(producto.id)
+                    producto.id = nuevo_id
+                    self.inventario.productos[nuevo_id] = producto
+                
+                # Actualizar atributos
+                producto.numero_item = nuevo_numero_item
+                producto.codigo_upc = nuevo_codigo_upc
+                producto.bin = nuevo_bin
+                producto.nombre = nuevo_nombre
+                producto.precio = nuevo_precio
+                producto.stock_actual = nuevo_stock
+                producto.stock_minimo = nuevo_minimo
+                producto.stock_maximo = nuevo_maximo
+                producto.categoria = nueva_categoria
+                
+                # Invalidar caché
+                self.inventario._invalidar_cache()
+                
+                messagebox.showinfo(
+                    "Éxito",
+                    f"Producto '{producto.nombre}' modificado exitosamente."
+                )
+                dialog.destroy()
+                self.actualizar_vista_productos()
+                self.ver_productos()
+                
+            except ValueError as e:
+                messagebox.showerror(
+                    "Error de Validación",
+                    f"Datos inválidos. Verifique que:\n" +
+                    f"- ID sea un número entero\n" +
+                    f"- Precio sea un número decimal\n" +
+                    f"- Stock, Mínimo y Máximo sean números enteros\n\n" +
+                    f"Error: {str(e)}"
+                )
+        
+        # Botones
+        btn_frame = ttk.Frame(main_frame)
+        btn_frame.grid(row=row_offset + len(campos) + 1, column=0, columnspan=2, pady=10)
+        
+        ttk.Button(
+            btn_frame,
+            text="💾 Guardar Cambios",
+            command=confirmar_modificacion,
+            style='Success.TButton'
+        ).pack(side=tk.LEFT, padx=5)
+        
+        ttk.Button(
+            btn_frame,
+            text="❌ Cancelar",
+            command=dialog.destroy
+        ).pack(side=tk.LEFT, padx=5)
     
     def salir(self):
         """Cierra la aplicación."""
