@@ -225,7 +225,9 @@ pytest tests/ -v --cov=.
    - Panel de menú lateral con todas las opciones
    - Área de trabajo con scroll para visualizar datos
 
-2. **📁 Carga Masiva desde Excel**
+2. **📁 Carga y Exportación de Datos**
+   
+   **Cargar Excel:**
    - Botón dedicado para cargar archivos .xlsx y .xls
    - **Mapeo personalizado de columnas**: Selecciona qué columnas del Excel corresponden a cada atributo
    - **Opción "No cargar datos"**: Permite carga parcial de información
@@ -235,6 +237,13 @@ pytest tests/ -v --cov=.
    - **BIN obligatorio**: Identifica la ubicación de bodega del producto
    - Vista previa de datos importados
    - Reporte de operaciones realizadas (agregados/actualizados/errores)
+   
+   **💾 Exportar Base de Datos:**
+   - Exporta todos los productos actuales a un archivo Excel
+   - Incluye todas las columnas: ID, Número Item, Código UPC, BIN, Nombre, Precio, Stock (Actual/Mín/Máx), Categoría
+   - Formato compatible con "Cargar Excel" para restaurar datos en nuevas sesiones
+   - Permite guardar el trabajo realizado y continuar en otra sesión
+   - Ideal para respaldos y transferencia de datos
 
 3. **🎯 Funcionalidades Integradas**
    - **Ver todos los productos** (agrupados con stock total y desglose por BIN)

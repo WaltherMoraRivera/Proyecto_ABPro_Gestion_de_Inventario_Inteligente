@@ -52,7 +52,7 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ---
 
-### 4. [GUIA_MODIFICAR_PRODUCTO.md](GUIA_MODIFICAR_PRODUCTO.md) ✨ **NUEVO**
+### 4. [GUIA_MODIFICAR_PRODUCTO.md](GUIA_MODIFICAR_PRODUCTO.md)
 **Propósito**: Guía completa para buscar y modificar productos existentes  
 **Contenido**:
 - Tres métodos de búsqueda (ID, Número Item, Código UPC)
@@ -67,9 +67,24 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ---
 
+### 5. [GUIA_EXPORTAR_BD.md](GUIA_EXPORTAR_BD.md) ✨ **NUEVO**
+**Propósito**: Guía completa para exportar la base de datos a Excel  
+**Contenido**:
+- Workflow completo de trabajo (cargar → modificar → exportar → cargar)
+- Estructura del archivo exportado (10 columnas)
+- 6 casos de uso prácticos (respaldo, transferencia, auditoría, etc.)
+- Compatibilidad con "Cargar Excel"
+- Mejores prácticas y nomenclatura de archivos
+- Solución de problemas
+- Notas técnicas de implementación
+
+**Cuándo usar**: Cuando necesites guardar el inventario completo o crear respaldos
+
+---
+
 ## 🔧 Documentación Técnica
 
-### 5. [RESUMEN_CAMBIOS.md](RESUMEN_CAMBIOS.md)
+### 6. [RESUMEN_CAMBIOS.md](RESUMEN_CAMBIOS.md)
 **Propósito**: Documentación técnica de la implementación inicial de carga desde Excel  
 **Contenido**:
 - Cambios en clases Producto e Inventario
@@ -82,7 +97,7 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ---
 
-### 6. [RESUMEN_CAMBIOS_BIN.md](RESUMEN_CAMBIOS_BIN.md)
+### 7. [RESUMEN_CAMBIOS_BIN.md](RESUMEN_CAMBIOS_BIN.md)
 **Propósito**: Documentación técnica completa del sistema BIN  
 **Contenido**:
 - Cambios en el modelo de datos
@@ -96,10 +111,10 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ---
 
-### 7. [CHANGELOG.md](CHANGELOG.md)
+### 8. [CHANGELOG.md](CHANGELOG.md)
 **Propósito**: Registro cronológico de todas las versiones y cambios  
 **Contenido**:
-- Historial de versiones (1.0.0, 1.1.0, 2.0.0, 2.1.0)
+- Historial de versiones (1.0.0, 1.1.0, 2.0.0, 2.1.0, 2.2.0)
 - Características añadidas por versión
 - Archivos modificados en cada versión
 - Tipos de cambios (Features, Fixes, Docs, etc.)
@@ -110,7 +125,7 @@ Bienvenido al Sistema de Gestión de Inventario Inteligente. Esta guía te ayuda
 
 ## 🛠️ Scripts y Utilidades
 
-### 8. [crear_excel_ejemplo.py](crear_excel_ejemplo.py)
+### 9. [crear_excel_ejemplo.py](crear_excel_ejemplo.py)
 **Propósito**: Script para generar archivo Excel de ejemplo  
 **Uso**:
 ```bash
@@ -123,7 +138,20 @@ python crear_excel_ejemplo.py
 
 ---
 
-### 9. [test_bin.py](test_bin.py)
+### 9. [crear_excel_ejemplo.py](crear_excel_ejemplo.py)
+**Propósito**: Script para generar archivo Excel de ejemplo  
+**Uso**:
+```bash
+python crear_excel_ejemplo.py
+```
+**Genera**: `inventario_ejemplo.xlsx` con datos de prueba incluyendo:
+- Productos con todos los atributos
+- Ejemplos de productos en múltiples BINs
+- Datos listos para probar el mapeo de columnas
+
+---
+
+### 10. [test_bin.py](test_bin.py)
 **Propósito**: Script de pruebas del sistema BIN  
 **Uso**:
 ```bash
@@ -138,7 +166,22 @@ python test_bin.py
 
 ---
 
-### 10. [test_modificar_producto.py](test_modificar_producto.py) ✨ **NUEVO**
+### 10. [test_bin.py](test_bin.py)
+**Propósito**: Script de pruebas del sistema BIN  
+**Uso**:
+```bash
+python test_bin.py
+```
+**Verifica**:
+- Creación de productos con BIN
+- Cálculo de stock total
+- Diccionario de ubicaciones
+- Búsqueda por BIN específico
+- Agrupación de productos
+
+---
+
+### 11. [test_modificar_producto.py](test_modificar_producto.py)
 **Propósito**: Script de pruebas para la funcionalidad de modificación de productos  
 **Uso**:
 ```bash
@@ -150,6 +193,38 @@ python test_modificar_producto.py
 - Búsqueda de productos por Código UPC
 - Modificación de atributos (precio, stock, categoría)
 - Persistencia de cambios
+
+---
+
+### 11. [test_modificar_producto.py](test_modificar_producto.py)
+**Propósito**: Script de pruebas para la funcionalidad de modificación de productos  
+**Uso**:
+```bash
+python test_modificar_producto.py
+```
+**Verifica**:
+- Búsqueda de productos por ID
+- Búsqueda de productos por Número de Item
+- Búsqueda de productos por Código UPC
+- Modificación de atributos (precio, stock, categoría)
+- Persistencia de cambios
+
+---
+
+### 12. [test_exportar_bd.py](test_exportar_bd.py) ✨ **NUEVO**
+**Propósito**: Script de pruebas para la funcionalidad de exportación de base de datos  
+**Uso**:
+```bash
+python test_exportar_bd.py
+```
+**Verifica**:
+- Exportación de productos a archivo Excel
+- Estructura correcta del archivo exportado (10 columnas)
+- Compatibilidad del formato con "Cargar Excel"
+- Simulación de carga del archivo exportado
+- Integridad de datos exportados/importados
+
+**Genera**: `inventario_prueba_exportacion.xlsx` para validación
 
 ---
 
@@ -171,6 +246,13 @@ python test_modificar_producto.py
 2. Ejecutar `python test_modificar_producto.py` para ver ejemplos
 3. Usar la opción "✏️ Modificar Producto" en la GUI
 
+### Para Exportar/Respaldar Datos
+1. Cargar o trabajar con productos en la aplicación
+2. Hacer clic en "💾 Exportar Base de Datos" en la barra superior
+3. Guardar el archivo Excel generado
+4. Usar el archivo exportado con "Cargar Excel" en futuras sesiones
+5. Ejecutar `python test_exportar_bd.py` para ver el proceso de exportación
+
 ### Para Desarrolladores
 1. [README.md](README.md) - Arquitectura general
 2. [RESUMEN_CAMBIOS.md](RESUMEN_CAMBIOS.md) - Implementación carga Excel
@@ -184,10 +266,10 @@ python test_modificar_producto.py
 | Tipo | Archivos | Propósito |
 |------|----------|-----------|
 | **Principal** | README.md | Documentación general y punto de entrada |
-| **Guías de Usuario** | GUIA_CARGA_EXCEL.md<br>GUIA_BIN.md<br>GUIA_MODIFICAR_PRODUCTO.md | Instrucciones paso a paso |
+| **Guías de Usuario** | GUIA_CARGA_EXCEL.md<br>GUIA_BIN.md<br>GUIA_MODIFICAR_PRODUCTO.md<br>GUIA_EXPORTAR_BD.md | Instrucciones paso a paso |
 | **Técnica** | RESUMEN_CAMBIOS.md<br>RESUMEN_CAMBIOS_BIN.md | Detalles de implementación |
 | **Historial** | CHANGELOG.md | Registro de versiones |
-| **Scripts** | crear_excel_ejemplo.py<br>test_bin.py<br>test_modificar_producto.py | Utilidades y pruebas |
+| **Scripts** | crear_excel_ejemplo.py<br>test_bin.py<br>test_modificar_producto.py<br>test_exportar_bd.py | Utilidades y pruebas |
 
 ---
 

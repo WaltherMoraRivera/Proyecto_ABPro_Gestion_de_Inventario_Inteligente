@@ -7,6 +7,78 @@ y este proyecto adhiere a [Versionado Semántico](https://semver.org/lang/es/).
 
 ---
 
+## [2.2.0] - 2025-12-16
+
+### ✨ Características Añadidas
+
+#### Exportar Base de Datos
+- **Botón "💾 Exportar Base de Datos"** en la barra superior (a la izquierda de "Cargar Excel")
+- **Exportación completa** de todos los productos actuales a archivo Excel
+- **Formato compatible** con la función "Cargar Excel" para restaurar datos
+- **Workflow completo**:
+  1. Usuario carga datos con "Cargar Excel"
+  2. Realiza modificaciones en la aplicación
+  3. Exporta todo con "Exportar Base de Datos"
+  4. Puede usar el archivo exportado en una nueva sesión
+
+#### Funcionalidades Técnicas
+- `exportar_base_datos()` en `gui.py`: Función completa de exportación
+- Validación de inventario vacío antes de exportar
+- Diálogo para seleccionar ubicación y nombre del archivo
+- Todas las columnas incluidas: ID, Numero_Item, Codigo_UPC, BIN_Bodega, Nombre, Precio, Stock_Actual, Stock_Minimo, Stock_Maximo, Categoria
+- Mensaje de confirmación con detalles de la exportación
+- Manejo robusto de errores
+
+### 📝 Archivos Modificados
+
+#### `gui.py`
+- Agregado botón "💾 Exportar Base de Datos" en título_frame (línea ~123)
+- Nueva función `exportar_base_datos()` (~70 líneas)
+- Exportación usando pandas.to_excel()
+
+### 📚 Documentación Nueva
+
+- **test_exportar_bd.py**: Script de pruebas que verifica:
+  - Exportación de productos a Excel
+  - Estructura correcta del archivo exportado
+  - Compatibilidad con función "Cargar Excel"
+  - Carga simulada del archivo exportado
+  - ✓ Todas las pruebas pasan (5/5 productos exportados/cargados)
+
+### 🔧 Archivos Actualizados
+
+- **README.md**: 
+  - Renombrada sección de "Carga Masiva desde Excel" a "Carga y Exportación de Datos"
+  - Agregada subsección "Exportar Base de Datos" con características
+  - Explicado workflow completo de carga → modificación → exportación
+
+### 📊 Estadísticas de Cambios
+
+- **Líneas de código añadidas**: ~70 en gui.py
+- **Archivos nuevos**: 1 (test_exportar_bd.py)
+- **Archivos modificados**: 2 (gui.py, README.md)
+- **Botones nuevos**: 1 (Exportar Base de Datos)
+- **Columnas exportadas**: 10
+
+### 🎯 Casos de Uso
+
+1. **Respaldo de datos**: Exportar inventario actual antes de cambios importantes
+2. **Transferencia entre sesiones**: Guardar trabajo y continuar después
+3. **Compartir datos**: Exportar y enviar archivo a otros usuarios
+4. **Migración**: Mover datos entre instalaciones
+5. **Auditoría**: Crear snapshots del estado del inventario
+
+### ✅ Pruebas Realizadas
+
+- ✓ Exportación de 5 productos exitosa
+- ✓ Archivo contiene todas las 10 columnas necesarias
+- ✓ Formato compatible verificado
+- ✓ Carga del archivo exportado funciona correctamente
+- ✓ Interfaz gráfica muestra botón correctamente
+- ✓ Mensajes de error/éxito funcionan
+
+---
+
 ## [2.1.0] - 2025-12-16
 
 ### ✨ Características Añadidas

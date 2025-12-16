@@ -123,6 +123,13 @@ class SistemaInventarioGUI:
                               command=self.cargar_excel)
         btn_excel.pack(side=tk.RIGHT, padx=5)
         
+        # Botón de exportar base de datos
+        btn_exportar = ttk.Button(titulo_frame,
+                                 text="💾 Exportar Base de Datos",
+                                 style='Primary.TButton',
+                                 command=self.exportar_base_datos)
+        btn_exportar.pack(side=tk.RIGHT, padx=5)
+        
         # Panel izquierdo (Menú de opciones)
         self.crear_panel_menu(main_frame)
         
@@ -266,6 +273,68 @@ class SistemaInventarioGUI:
             messagebox.showerror(
                 "Error al cargar Excel",
                 f"No se pudo cargar el archivo:\n\n{str(e)}"
+            )
+    
+    def exportar_base_datos(self):
+        """Exporta todos los productos actuales a un archivo Excel."""
+        if not self.inventario.productos:
+            messagebox.showwarning(
+                "Sin Datos",
+                "No hay productos en el inventario para exportar."
+            )
+            return
+        
+        # Solicitar ubicación y nombre del archivo
+        archivo = filedialog.asksaveasfilename(
+            title="Guardar Base de Datos como Excel",
+            defaultextension=".xlsx",
+            filetypes=[
+                ("Archivos Excel", "*.xlsx"),
+                ("Todos los archivos", "*.*")
+            ],
+            initialfile="inventario_exportado.xlsx"
+        )
+        
+        if not archivo:
+            return
+        
+        try:
+            # Crear lista de diccionarios con todos los productos
+            datos_productos = []
+            
+            for producto in self.inventario.listar_productos():
+                datos_productos.append({
+                    'ID': producto.id,
+                    'Numero_Item': producto.numero_item,
+                    'Codigo_UPC': producto.codigo_upc,
+                    'BIN_Bodega': producto.bin,
+                    'Nombre': producto.nombre,
+                    'Precio': producto.precio,
+                    'Stock_Actual': producto.stock_actual,
+                    'Stock_Minimo': producto.stock_minimo,
+                    'Stock_Maximo': producto.stock_maximo,
+                    'Categoria': producto.categoria
+                })
+            
+            # Crear DataFrame
+            df = pd.DataFrame(datos_productos)
+            
+            # Exportar a Excel
+            df.to_excel(archivo, index=False, sheet_name='Inventario')
+            
+            messagebox.showinfo(
+                "Exportación Exitosa",
+                f"Base de datos exportada exitosamente.\n\n"
+                f"Archivo: {archivo.split('/')[-1].split(chr(92))[-1]}\n"
+                f"Productos exportados: {len(datos_productos)}\n\n"
+                f"Puede usar este archivo con la opción 'Cargar Excel' "
+                f"para restaurar estos datos en una nueva sesión."
+            )
+            
+        except Exception as e:
+            messagebox.showerror(
+                "Error al Exportar",
+                f"No se pudo exportar la base de datos:\n\n{str(e)}"
             )
     
     def abrir_dialogo_mapeo_columnas(self, df: pd.DataFrame, archivo: str):
